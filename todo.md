@@ -16,3 +16,8 @@
 - [ ] Preparar únicamente las imágenes seleccionadas para web y conectarlas a sus secciones funcionales.
 - [ ] Sustituir el logo y favicon provisionales cuando el usuario adjunte los activos oficiales.
 - [ ] Aplicar la variante azul sobre fondo claro, la variante clara sobre fondos oscuros y el monograma cuadrado como favicon oficial.
+- [ ] Presentar el logo oficial sin placa de fondo y conservar contraste suficiente sobre fondos claros y oscuros.
+- [ ] Implementar un selector Español/Inglés que cambie toda la interfaz comercial relevante sin recargar la página.
+- [ ] Montar un chat visual preparado para Leadprime, sin token ni envío de datos hasta que el usuario autorice la conexión.
+- [ ] Añadir una interacción de evaluación visual de proyecto y verificar la experiencia completa antes de sincronizar main.
+- [ ] Configurar English como idioma predeterminado, preservando Español como cambio manual disponible.

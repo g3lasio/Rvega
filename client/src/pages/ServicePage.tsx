@@ -1,100 +1,35 @@
 /**
- * Style guide: Taller de Cal y Sombra — service pages should feel like a precise field guide.
- * Use mineral imagery, clear scope framing and an editorial, non-generic conversion path.
+ * Style guide: Taller de Cal y Sombra — each service page reads like a bilingual field guide.
+ * Mineral surfaces, C-35 labels and simple scope questions sustain the craft-led visual grammar.
  */
 import { ArrowLeft, ArrowUpRight, Check, ChevronRight, Phone, Ruler } from "lucide-react";
+import LanguageToggle from "@/components/LanguageToggle";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type ServiceKind = "exterior" | "interior" | "lath";
+type ServiceCopy = { eyebrow: string; title: string; emphasis: string; intro: string; image: string; imageAlt: string; imageNote?: string; focusTitle: string; focus: string[]; notes: Array<[string, string]>; question: string; };
 
 const logoUrl = "/assets/brand-icon.png";
-
-const content: Record<ServiceKind, {
-  eyebrow: string;
-  title: string;
-  emphasis: string;
-  intro: string;
-  image: string;
-  imageAlt: string;
-  imageNote?: string;
-  focusTitle: string;
-  focus: string[];
-  notes: Array<[string, string]>;
-  question: string;
-}> = {
-  exterior: {
-    eyebrow: "SERVICIO 01 / EXTERIOR",
-    title: "Estuco exterior",
-    emphasis: "con un plan claro.",
-    intro: "Para reparaciones, remodelaciones y superficies nuevas, la conversación empieza con la condición del muro, la ubicación y el tipo de acabado que buscas.",
-    image: "/assets/project-residential-front.jpg",
-    imageAlt: "Fachada residencial con acabado exterior de estuco",
-    imageNote: "Fotografía de obra real",
-    focusTitle: "Antes de hablar de textura, revisamos la superficie.",
-    focus: ["Estado visual de la superficie y área de trabajo", "Ubicación, acceso y relación con el resto de la fachada", "Tipo de intervención: reparación, remodelación o construcción nueva"],
-    notes: [["Reparación", "Comparte fotos del área y una vista amplia de la fachada para orientar la evaluación."], ["Remodelación", "Indica qué cambia alrededor del muro: ventanas, puertas, ampliación o materiales vecinos."], ["Construcción nueva", "Cuéntanos en qué etapa está el proyecto y qué tipo de acabado se está considerando."]],
-    question: "¿Tienes una fachada o muro exterior que revisar?",
-  },
-  interior: {
-    eyebrow: "SERVICIO 02 / INTERIOR",
-    title: "Plaster interior",
-    emphasis: "para la luz del espacio.",
-    intro: "Una pared interior tiene que leerse bien a corta distancia. Cuéntanos el ambiente, la superficie existente y el tipo de resultado que imaginas.",
-    image: "/assets/interior-arch-detail.jpg",
-    imageAlt: "Detalle de una apertura interior con pared de plaster clara",
-    focusTitle: "La superficie, la iluminación y el uso del cuarto cambian la conversación.",
-    focus: ["Pared de acento, área completa o reparación puntual", "Fotos con luz natural y una toma amplia del cuarto", "Textura actual, cambios de material y condición visible"],
-    notes: [["Pared de acento", "Comparte el tamaño aproximado y una foto donde se vea la luz que recibe el muro."], ["Remodelación", "Indica si hay nuevas aberturas, luminarias, gabinetes o elementos que se conectarán al acabado."], ["Reparación", "Una foto de cerca y otra desde el cuarto ayudan a ubicar el área en contexto."]],
-    question: "¿Quieres revisar una pared interior o una superficie de acento?",
-  },
-  lath: {
-    eyebrow: "SERVICIO 03 / PREPARACIÓN",
-    title: "Lath y preparación",
-    emphasis: "antes de la capa final.",
-    intro: "La preparación forma parte del resultado. Para conversar sobre lath y base, necesitamos entender la etapa de obra, el sustrato y el acceso al área.",
-    image: "/assets/process-commercial.jpg",
-    imageAlt: "Equipo aplicando material en fachada comercial sobre andamio",
-    imageNote: "Fotografía de obra real",
-    focusTitle: "Antes del acabado, la base necesita una lectura ordenada.",
-    focus: ["Etapa actual del proyecto y condición del sustrato", "Dimensiones aproximadas, ubicación y acceso", "Relación con ventanas, esquinas, transiciones y materiales contiguos"],
-    notes: [["Construcción nueva", "Indica si el proyecto está listo para esta etapa o qué trabajo anterior sigue pendiente."], ["Ampliación", "Comparte una vista amplia que muestre cómo se une la nueva área con la existente."], ["Remodelación", "Explica qué se retiró o cambió para entender la superficie que recibirá la preparación."]],
-    question: "¿Estás preparando una superficie para el siguiente paso?",
-  },
+const spanish: Record<ServiceKind, ServiceCopy> = {
+  exterior: { eyebrow: "SERVICIO 01 / EXTERIOR", title: "Estuco exterior", emphasis: "con un plan claro.", intro: "Para reparaciones, remodelaciones y superficies nuevas, la conversación empieza con la condición del muro, la ubicación y el tipo de acabado que buscas.", image: "/assets/project-residential-front.jpg", imageAlt: "Fachada residencial con acabado exterior de estuco", imageNote: "Fotografía de obra real", focusTitle: "Antes de hablar de textura, revisamos la superficie.", focus: ["Estado visual de la superficie y área de trabajo", "Ubicación, acceso y relación con el resto de la fachada", "Tipo de intervención: reparación, remodelación o construcción nueva"], notes: [["Reparación", "Comparte fotos del área y una vista amplia de la fachada para orientar la evaluación."], ["Remodelación", "Indica qué cambia alrededor del muro: ventanas, puertas, ampliación o materiales vecinos."], ["Construcción nueva", "Cuéntanos en qué etapa está el proyecto y qué tipo de acabado se está considerando."]], question: "¿Tienes una fachada o muro exterior que revisar?" },
+  interior: { eyebrow: "SERVICIO 02 / INTERIOR", title: "Plaster interior", emphasis: "para la luz del espacio.", intro: "Una pared interior tiene que leerse bien a corta distancia. Cuéntanos el ambiente, la superficie existente y el tipo de resultado que imaginas.", image: "/assets/interior-arch-detail.jpg", imageAlt: "Detalle de una apertura interior con pared de plaster clara", focusTitle: "La superficie, la iluminación y el uso del cuarto cambian la conversación.", focus: ["Pared de acento, área completa o reparación puntual", "Fotos con luz natural y una toma amplia del cuarto", "Textura actual, cambios de material y condición visible"], notes: [["Pared de acento", "Comparte el tamaño aproximado y una foto donde se vea la luz que recibe el muro."], ["Remodelación", "Indica si hay nuevas aberturas, luminarias, gabinetes o elementos que se conectarán al acabado."], ["Reparación", "Una foto de cerca y otra desde el cuarto ayudan a ubicar el área en contexto."]], question: "¿Quieres revisar una pared interior o una superficie de acento?" },
+  lath: { eyebrow: "SERVICIO 03 / PREPARACIÓN", title: "Lath y preparación", emphasis: "antes de la capa final.", intro: "La preparación forma parte del resultado. Para conversar sobre lath y base, necesitamos entender la etapa de obra, el sustrato y el acceso al área.", image: "/assets/process-commercial.jpg", imageAlt: "Equipo aplicando material en fachada comercial sobre andamio", imageNote: "Fotografía de obra real", focusTitle: "Antes del acabado, la base necesita una lectura ordenada.", focus: ["Etapa actual del proyecto y condición del sustrato", "Dimensiones aproximadas, ubicación y acceso", "Relación con ventanas, esquinas, transiciones y materiales contiguos"], notes: [["Construcción nueva", "Indica si el proyecto está listo para esta etapa o qué trabajo anterior sigue pendiente."], ["Ampliación", "Comparte una vista amplia que muestre cómo se une la nueva área con la existente."], ["Remodelación", "Explica qué se retiró o cambió para entender la superficie que recibirá la preparación."]], question: "¿Estás preparando una superficie para el siguiente paso?" },
+};
+const english: Record<ServiceKind, ServiceCopy> = {
+  exterior: { eyebrow: "SERVICE 01 / EXTERIOR", title: "Exterior stucco", emphasis: "with a clear plan.", intro: "For repairs, remodels, and new surfaces, the conversation starts with wall condition, location, and the finish you are considering.", image: spanish.exterior.image, imageAlt: "Residential facade with exterior stucco finish", imageNote: "Real jobsite photography", focusTitle: "Before discussing texture, we review the surface.", focus: ["Visible surface condition and work area", "Location, access, and relation to the rest of the facade", "Type of intervention: repair, remodel, or new construction"], notes: [["Repair", "Share photos of the area and one wide facade view to guide the evaluation."], ["Remodel", "Tell us what is changing around the wall: windows, doors, additions, or adjacent materials."], ["New construction", "Tell us what stage the project is in and what finish is being considered."]], question: "Do you have an exterior wall or facade to review?" },
+  interior: { eyebrow: "SERVICE 02 / INTERIOR", title: "Interior plaster", emphasis: "for the room’s light.", intro: "An interior wall needs to read well at close range. Tell us about the room, the existing surface, and the result you have in mind.", image: spanish.interior.image, imageAlt: "Interior opening with a light plaster wall", focusTitle: "Surface, lighting, and room use change the conversation.", focus: ["Accent wall, full area, or a focused repair", "Photos with natural light and a wide view of the room", "Current texture, material changes, and visible condition"], notes: [["Accent wall", "Share the approximate size and one photo showing the light the wall receives."], ["Remodel", "Tell us whether new openings, fixtures, cabinetry, or elements will connect to the finish."], ["Repair", "One close photo and one room view help place the area in context."]], question: "Would you like to review an interior wall or accent surface?" },
+  lath: { eyebrow: "SERVICE 03 / PREPARATION", title: "Lath & preparation", emphasis: "before the final coat.", intro: "Preparation is part of the result. To discuss lath and base, we need to understand the construction stage, substrate, and access to the area.", image: spanish.lath.image, imageAlt: "Team applying material on a commercial facade from scaffolding", imageNote: "Real jobsite photography", focusTitle: "Before the finish, the base needs an ordered review.", focus: ["Current project stage and substrate condition", "Approximate dimensions, location, and access", "Relation to windows, corners, transitions, and adjacent materials"], notes: [["New construction", "Tell us whether the project is ready for this stage or what earlier work is still pending."], ["Addition", "Share one wide view showing how the new area joins the existing one."], ["Remodel", "Explain what was removed or changed to understand the surface that will receive preparation."]], question: "Are you preparing a surface for the next step?" },
 };
 
 export default function ServicePage({ kind }: { kind: ServiceKind }) {
-  const service = content[kind];
-  return (
-    <div className="detail-page">
-      <header className="detail-header">
-        <a className="detail-brand" href="/"><span><img src={logoUrl} alt="" /></span><strong>R VEGA <small>PLASTERING</small></strong></a>
-        <a className="detail-back" href="/"><ArrowLeft size={17} /> Inicio</a>
-        <a className="detail-phone" href="tel:+12096405323"><Phone size={15} />(209) 640-5323</a>
-      </header>
-      <main>
-        <section className="detail-hero">
-          <div className="detail-hero-copy">
-            <p className="eyebrow"><span /> {service.eyebrow}</p>
-            <h1>{service.title}<br /><em>{service.emphasis}</em></h1>
-            <p>{service.intro}</p>
-            <a href="/#cotizar" className="button button-eucalyptus">Revisar mi proyecto <ArrowUpRight size={18} /></a>
-          </div>
-          <div className="detail-hero-media"><img src={service.image} alt={service.imageAlt} /><span><Ruler size={16} /> C-35 / STOCKTON</span>{service.imageNote && <small>{service.imageNote}</small>}</div>
-        </section>
-        <div className="detail-field-rule" aria-label={`Ficha técnica ${service.eyebrow}`}><i /><span>C-35 · FICHA DE CAMPO · {service.eyebrow}</span><i /></div>
-
-        <section className="detail-focus">
-          <div className="detail-section-title"><p className="eyebrow"><span /> QUÉ COMPARTIR</p><h2>{service.focusTitle}</h2></div>
-          <div className="detail-focus-list">{service.focus.map((item, index) => <div key={item}><span>0{index + 1}</span><p>{item}</p><Check size={18} /></div>)}</div>
-        </section>
-
-        <section className="detail-notes">
-          <div><p className="eyebrow eyebrow-light"><span /> CONTEXTO DEL PROYECTO</p><h2>La información correcta<br /><em>reduce vueltas.</em></h2><p className="detail-note-copy">Estas notas no sustituyen una visita. Sirven para preparar mejor la primera conversación y ayudar a identificar el siguiente paso.</p></div>
-          <div className="detail-note-cards">{service.notes.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
-        </section>
-
-        <section className="detail-cta"><div><p className="eyebrow"><span /> SIGUIENTE PASO</p><h2>{service.question}</h2></div><a className="detail-cta-button" href="/#cotizar">Empezar solicitud <ChevronRight size={22} /></a></section>
-      </main>
-      <footer className="detail-footer"><span>ESTUCO · PLASTER · LATHING</span><span>LIC. #1114856 · C-35</span><a href="/">R VEGA PLASTERING</a></footer>
-    </div>
-  );
+  const { language } = useLanguage(); const service = (language === "es" ? spanish : english)[kind]; const isSpanish = language === "es";
+  const ui = isSpanish ? { home: "Inicio", action: "Revisar mi proyecto", share: "QUÉ COMPARTIR", context: "CONTEXTO DEL PROYECTO", contextTitle: <>La información correcta<br /><em>reduce vueltas.</em></>, contextText: "Estas notas no sustituyen una visita. Sirven para preparar mejor la primera conversación y ayudar a identificar el siguiente paso.", next: "SIGUIENTE PASO", start: "Empezar solicitud", label: "C-35 · FICHA DE CAMPO" } : { home: "Home", action: "Review my project", share: "WHAT TO SHARE", context: "PROJECT CONTEXT", contextTitle: <>The right information<br /><em>cuts extra steps.</em></>, contextText: "These notes do not replace a visit. They prepare a better first conversation and help identify the next step.", next: "NEXT STEP", start: "Start request", label: "C-35 · FIELD NOTE" };
+  return <div className="detail-page">
+    <header className="detail-header"><a className="detail-brand" href="/"><img src={logoUrl} alt="" /><strong>R VEGA <small>PLASTERING</small></strong></a><a className="detail-back" href="/"><ArrowLeft size={17} /> {ui.home}</a><div className="detail-header-tools"><LanguageToggle /><a className="detail-phone" href="tel:+12096405323"><Phone size={15} />(209) 640-5323</a></div></header>
+    <main><section className="detail-hero"><div className="detail-hero-copy"><p className="eyebrow"><span /> {service.eyebrow}</p><h1>{service.title}<br /><em>{service.emphasis}</em></h1><p>{service.intro}</p><a href="/#cotizar" className="button button-eucalyptus">{ui.action} <ArrowUpRight size={18} /></a></div><div className="detail-hero-media"><img src={service.image} alt={service.imageAlt} /><span><Ruler size={16} /> C-35 / STOCKTON</span>{service.imageNote && <small>{service.imageNote}</small>}</div></section><div className="detail-field-rule" aria-label={`${ui.label} ${service.eyebrow}`}><i /><span>{ui.label} · {service.eyebrow}</span><i /></div>
+    <section className="detail-focus"><div className="detail-section-title"><p className="eyebrow"><span /> {ui.share}</p><h2>{service.focusTitle}</h2></div><div className="detail-focus-list">{service.focus.map((item, index) => <div key={item}><span>0{index + 1}</span><p>{item}</p><Check size={18} /></div>)}</div></section>
+    <section className="detail-notes"><div><p className="eyebrow eyebrow-light"><span /> {ui.context}</p><h2>{ui.contextTitle}</h2><p className="detail-note-copy">{ui.contextText}</p></div><div className="detail-note-cards">{service.notes.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div></section>
+    <section className="detail-cta"><div><p className="eyebrow"><span /> {ui.next}</p><h2>{service.question}</h2></div><a className="detail-cta-button" href="/#cotizar">{ui.start} <ChevronRight size={22} /></a></section></main>
+    <footer className="detail-footer"><span>STUCCO · PLASTER · LATHING</span><span>LIC. #1114856 · C-35</span><a href="/">R VEGA PLASTERING</a></footer>
+  </div>;
 }
