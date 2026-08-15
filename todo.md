@@ -21,3 +21,6 @@
 - [ ] Montar un chat visual preparado para Leadprime, sin token ni envío de datos hasta que el usuario autorice la conexión.
 - [ ] Añadir una interacción de evaluación visual de proyecto y verificar la experiencia completa antes de sincronizar main.
 - [ ] Configurar English como idioma predeterminado, preservando Español como cambio manual disponible.
+- [ ] Diseñar Project Match Pro como una exploración visual de pared y acabado, no como un formulario convencional.
+- [ ] Implementar estados de superficie, progresión guiada, resumen de proyecto y traspaso accionable a cotización.
+- [ ] Mantener efectos de profundidad livianos, accesibles y compatibles con móvil antes de sincronizar main.
