@@ -229,3 +229,39 @@ h2 em { color: #315f57; }
 .coverage-field-mark { display: flex; gap: 8px; align-items: center; width: fit-content; border-top: 1px solid rgba(255,255,255,.29); padding-top: 12px; color: #c1d9c8; font-size: 9px; font-weight: 800; letter-spacing: .12em; }
 @media (max-width: 560px) { .official-lockup { width: 130px; height: 47px; }.official-brand-wordmark { transform: scale(1.24); }.coverage-field-card { min-height: 390px; padding: 27px; } }
 @media (max-width: 560px) { .transparent-lockup { min-width: 120px; gap: 6px; }.transparent-lockup-icon { width: 27px; height: 32px; }.transparent-lockup-type strong { font-size: 11px; }.transparent-lockup-type small { font-size: 6px; } }
+
+/* Final header correction: original white wordmark without a separate logo background. */
+.site-header {
+  position: fixed !important;
+  inset: 0 0 auto;
+  z-index: 1000;
+  width: 100%;
+  background: rgba(17, 30, 27, 0.96) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.site-shell > main { padding-top: 78px; }
+.site-shell section[id] { scroll-margin-top: 96px; }
+.original-white-lockup { display: inline-flex; align-items: center; min-width: 145px; }
+.original-white-wordmark {
+  display: block;
+  width: 146px;
+  height: 49px;
+  background: #fffdf5;
+  -webkit-mask-image: url("/assets/r-vega-official-wordmark.png");
+  mask-image: url("/assets/r-vega-official-wordmark.png");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-mode: luminance;
+  mask-mode: luminance;
+}
+@media (max-width: 760px) {
+  .site-shell > main { padding-top: 67px; }
+  .site-shell section[id] { scroll-margin-top: 82px; }
+  .original-white-lockup { min-width: 112px; }
+  .original-white-wordmark { width: 112px; height: 38px; }
+}

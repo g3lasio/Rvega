@@ -48,7 +48,7 @@ const content = {
 
 type PageCopy = typeof content.en;
 
-function BrandLockup() { return <a href="#inicio" className="brand-lockup transparent-lockup" aria-label="R Vega Plastering"><img className="transparent-lockup-icon" src={brandIconUrl} alt="" /><span className="transparent-lockup-type"><strong>R VEGA</strong><small>PLASTERING</small></span></a>; }
+function BrandLockup() { return <a href="#inicio" className="brand-lockup original-white-lockup" aria-label="R Vega Plastering"><span className="original-white-wordmark" role="img" aria-label="R Vega Plastering" /></a>; }
 
 function LeadCaptureForm({ copy, language }: { copy: PageCopy; language: "en" | "es" }) {
   const [sent, setSent] = useState(false); const [sending, setSending] = useState(false); const [error, setError] = useState("");
