@@ -7,23 +7,23 @@ import { ArrowUpRight, Crosshair, LocateFixed, MapPin, Search } from "lucide-rea
 import { MapView } from "@/components/Map";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-type City = { name: string; position: google.maps.LatLngLiteral; cluster: "valley" | "sacramento" | "bay" | "south" };
+type City = { name: string; slug: string; position: google.maps.LatLngLiteral; cluster: "valley" | "sacramento" | "bay" | "south" };
 
 const cities: City[] = [
-  { name: "Stockton", position: { lat: 37.9577, lng: -121.2908 }, cluster: "valley" },
-  { name: "Manteca", position: { lat: 37.7974, lng: -121.2161 }, cluster: "valley" },
-  { name: "Bakersfield", position: { lat: 35.3733, lng: -119.0187 }, cluster: "south" },
-  { name: "Huron", position: { lat: 36.2027, lng: -120.1029 }, cluster: "south" },
-  { name: "Sacramento", position: { lat: 38.5816, lng: -121.4944 }, cluster: "sacramento" },
-  { name: "Roseville", position: { lat: 38.7521, lng: -121.288 }, cluster: "sacramento" },
-  { name: "Fairfield", position: { lat: 38.2494, lng: -122.039 }, cluster: "bay" },
-  { name: "Davis", position: { lat: 38.5449, lng: -121.74 }, cluster: "sacramento" },
-  { name: "Woodland", position: { lat: 38.6785, lng: -121.773 }, cluster: "sacramento" },
-  { name: "Folsom", position: { lat: 38.67796, lng: -121.176 }, cluster: "sacramento" },
-  { name: "Brentwood", position: { lat: 37.9319, lng: -121.695 }, cluster: "bay" },
-  { name: "San Jose", position: { lat: 37.3382, lng: -121.886 }, cluster: "bay" },
-  { name: "Saratoga", position: { lat: 37.2638, lng: -122.023 }, cluster: "bay" },
-  { name: "Union City", position: { lat: 37.5934, lng: -122.0438 }, cluster: "bay" },
+  { name: "Stockton", slug: "stockton", position: { lat: 37.9577, lng: -121.2908 }, cluster: "valley" },
+  { name: "Manteca", slug: "manteca", position: { lat: 37.7974, lng: -121.2161 }, cluster: "valley" },
+  { name: "Bakersfield", slug: "bakersfield", position: { lat: 35.3733, lng: -119.0187 }, cluster: "south" },
+  { name: "Huron", slug: "huron", position: { lat: 36.2027, lng: -120.1029 }, cluster: "south" },
+  { name: "Sacramento", slug: "sacramento", position: { lat: 38.5816, lng: -121.4944 }, cluster: "sacramento" },
+  { name: "Roseville", slug: "roseville", position: { lat: 38.7521, lng: -121.288 }, cluster: "sacramento" },
+  { name: "Fairfield", slug: "fairfield", position: { lat: 38.2494, lng: -122.039 }, cluster: "bay" },
+  { name: "Davis", slug: "davis", position: { lat: 38.5449, lng: -121.74 }, cluster: "sacramento" },
+  { name: "Woodland", slug: "woodland", position: { lat: 38.6785, lng: -121.773 }, cluster: "sacramento" },
+  { name: "Folsom", slug: "folsom", position: { lat: 38.67796, lng: -121.176 }, cluster: "sacramento" },
+  { name: "Brentwood", slug: "brentwood", position: { lat: 37.9319, lng: -121.695 }, cluster: "bay" },
+  { name: "San Jose", slug: "san-jose", position: { lat: 37.3382, lng: -121.886 }, cluster: "bay" },
+  { name: "Saratoga", slug: "saratoga", position: { lat: 37.2638, lng: -122.023 }, cluster: "bay" },
+  { name: "Union City", slug: "union-city", position: { lat: 37.5934, lng: -122.0438 }, cluster: "bay" },
 ];
 
 const coverageCenter = { lat: 37.42, lng: -120.62 };
@@ -37,9 +37,9 @@ export default function CoverageMap() {
   const queryMarker = useRef<google.maps.marker.AdvancedMarkerElement | null>(null);
 
   const text = language === "es" ? {
-    eyebrow: "COBERTURA DE PROYECTO", title: <>Un radio se ve mejor<br />cuando tiene <em>contexto.</em></>, intro: "Explora las ciudades donde el equipo ha realizado trabajo. La disponibilidad final se revisa con alcance, calendario y condiciones de obra.", legend: "TERRITORIO DE TRABAJO", envelope: "HASTA 200 MI · SEGÚN ALCANCE", input: "Ciudad o ZIP", action: "Revisar ubicación", reset: "Vista regional", result: "Ubicación enfocada. Comparte los detalles del proyecto para revisar cobertura.", notFound: "No pudimos ubicar esa entrada. Intenta con ciudad y estado o un ZIP.", send: "Usar esta ubicación en mi solicitud", cityList: "Ciudades y áreas documentadas", chapters: "Notas regionales de campo", chapterLinks: [["Stockton + Central Valley", "/areas/stockton"], ["Sacramento Area", "/areas/sacramento"], ["Bay Area", "/areas/bay-area"]]
+    eyebrow: "COBERTURA DE PROYECTO", title: <>Un radio se ve mejor<br />cuando tiene <em>contexto.</em></>, intro: "Explora las ciudades donde el equipo ha realizado trabajo. La disponibilidad final se revisa con alcance, calendario y condiciones de obra.", legend: "TERRITORIO DE TRABAJO", envelope: "HASTA 200 MI · SEGÚN ALCANCE", input: "Ciudad o ZIP", action: "Revisar ubicación", reset: "Vista regional", result: "Ubicación enfocada. Comparte los detalles del proyecto para revisar cobertura.", notFound: "No pudimos ubicar esa entrada. Intenta con ciudad y estado o un ZIP.", send: "Usar esta ubicación en mi solicitud", cityList: "Ciudades y áreas documentadas", chapters: "Páginas de cobertura por ciudad"
   } : {
-    eyebrow: "PROJECT COVERAGE", title: <>A service area reads better<br />with <em>context.</em></>, intro: "Explore the cities where the team has completed work. Final availability is reviewed with scope, timing, and site conditions.", legend: "WORK TERRITORY", envelope: "UP TO 200 MI · BY PROJECT SCOPE", input: "City or ZIP", action: "Check location", reset: "Regional view", result: "Location focused. Share the project details so coverage can be reviewed.", notFound: "We could not locate that entry. Try a city and state or a ZIP code.", send: "Use this location in my request", cityList: "Documented cities and areas", chapters: "Regional field notes", chapterLinks: [["Stockton + Central Valley", "/areas/stockton"], ["Sacramento Area", "/areas/sacramento"], ["Bay Area", "/areas/bay-area"]]
+    eyebrow: "PROJECT COVERAGE", title: <>A service area reads better<br />with <em>context.</em></>, intro: "Explore the cities where the team has completed work. Final availability is reviewed with scope, timing, and site conditions.", legend: "WORK TERRITORY", envelope: "UP TO 200 MI · BY PROJECT SCOPE", input: "City or ZIP", action: "Check location", reset: "Regional view", result: "Location focused. Share the project details so coverage can be reviewed.", notFound: "We could not locate that entry. Try a city and state or a ZIP code.", send: "Use this location in my request", cityList: "Documented cities and areas", chapters: "City coverage pages"
   };
 
   const focus = (city: City, zoom = 8) => {
@@ -139,7 +139,7 @@ export default function CoverageMap() {
         <button type="submit">{text.action}<LocateFixed size={15} /></button>
       </form>
       {status && <p className="coverage-status">{status}</p>}
-      <div className="coverage-city-list"><span>{text.cityList}</span><div>{cities.map((city) => <button key={city.name} className={activeCity === city.name ? "is-active" : ""} onClick={() => focus(city)} type="button">{city.name}</button>)}</div></div><div className="coverage-area-links"><span>{text.chapters}</span><div>{text.chapterLinks.map(([label, href]) => <a key={href} href={href}>{label}<ArrowUpRight size={14} /></a>)}</div></div>
+      <div className="coverage-city-list"><span>{text.cityList}</span><div>{cities.map((city) => <button key={city.name} className={activeCity === city.name ? "is-active" : ""} onClick={() => focus(city)} type="button">{city.name}</button>)}</div></div><div className="coverage-area-links coverage-city-pages"><span>{text.chapters}</span><div>{cities.map((city) => <a key={city.slug} href={`/areas/${city.slug}`}>{city.name}<ArrowUpRight size={14} /></a>)}</div></div>
     </div>
     <div className="coverage-map-shell">
       <MapView className="coverage-map-base" initialCenter={coverageCenter} initialZoom={6} onMapReady={onMapReady} />
