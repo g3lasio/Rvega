@@ -18,9 +18,11 @@ pnpm check
 pnpm build
 ```
 
-## Formulario de cotización
+## Captación con Leadprime
 
-La interfaz del formulario está lista para un webhook. Antes de lanzar campañas, coloca una URL de endpoint habilitada para CORS en la constante `WEBHOOK_ENDPOINT` de `client/src/pages/Home.tsx`. El sitio no envía solicitudes a un tercero hasta que ese valor se configure.
+El formulario de cotización envía nombre, teléfono, correo, ciudad, dirección opcional, tipo de proyecto, plazo, mensaje, contexto de Project Match Pro, consentimiento y atribución UTM al webhook autorizado de Leadprime. El widget oficial de Leadprime también está conectado desde `client/src/components/LeadprimeWidget.tsx`.
+
+No sustituyas el identificador del widget ni el endpoint del webhook salvo que el administrador de R Vega entregue credenciales nuevas. Si se rota alguno, actualiza únicamente las constantes de integración y verifica CORS para el dominio final de Railway antes de publicar campañas.
 
 ## Despliegue manual en Railway
 

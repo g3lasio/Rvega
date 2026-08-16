@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
-import LeadprimeChat from "./components/LeadprimeChat";
+import LeadprimeWidget from "./components/LeadprimeWidget";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -19,5 +19,5 @@ function Router() {
 }
 
 export default function App() {
-  return <ErrorBoundary><ThemeProvider defaultTheme="light"><LanguageProvider><TooltipProvider><Toaster /><Router /><LeadprimeChat /></TooltipProvider></LanguageProvider></ThemeProvider></ErrorBoundary>;
+  return <ErrorBoundary><ThemeProvider defaultTheme="light"><LanguageProvider><TooltipProvider><Toaster /><Router /><LeadprimeWidget /></TooltipProvider></LanguageProvider></ThemeProvider></ErrorBoundary>;
 }

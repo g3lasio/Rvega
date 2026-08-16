@@ -2,7 +2,7 @@
  * Style guide: Taller de Cal y Sombra — a tactile wall-study, not a conventional form.
  * CSS depth and restrained mineral light make each selection feel like a field observation.
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowDownRight, Check, Crosshair, Move3D, Ruler } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -59,6 +59,10 @@ export default function ProjectScopeTool() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const ready = Boolean(selection.surface && selection.goal && selection.finish);
   const selectedNames = useMemo(() => text.steps.map((step) => step.options.find(([value]) => value === selection[step.id])?.[1]).filter(Boolean), [selection, text.steps]);
+  useEffect(() => {
+    if (ready) sessionStorage.setItem("rvega-project-match", selectedNames.join(" · "));
+    else sessionStorage.removeItem("rvega-project-match");
+  }, [ready, selectedNames]);
   const setChoice = (step: Step, value: string) => setSelection((current) => ({ ...current, [step]: value }));
   const handleMove = (event: React.PointerEvent<HTMLDivElement>) => { const rect = event.currentTarget.getBoundingClientRect(); setTilt({ x: ((event.clientY - rect.top) / rect.height - .5) * -6, y: ((event.clientX - rect.left) / rect.width - .5) * 8 }); };
   const sceneClass = `match-scene is-${selection.surface || "exterior"} is-${selection.goal || "repair"} is-${selection.finish || "protect"}`;
@@ -79,7 +83,7 @@ export default function ProjectScopeTool() {
       </div>
       <div className="match-panel"><div className="match-panel-top"><span><Ruler size={15} /> C-35 / FIELD STUDY</span><strong>{ready ? "03 / 03" : `${Object.values(selection).filter(Boolean).length.toString().padStart(2, "0")} / 03`}</strong></div>
         <div className="match-steps">{text.steps.map((step) => <article className={`match-step ${selection[step.id] ? "is-complete" : ""}`} key={step.id}><div className="match-step-title"><span>{step.label}</span><h3>{step.prompt}</h3></div><div className="match-options">{step.options.map(([value, label]) => <button key={value} className={selection[step.id] === value ? "is-selected" : ""} onClick={() => setChoice(step.id, value)}><i />{label}</button>)}</div></article>)}</div>
-        <div className={`match-brief ${ready ? "is-ready" : ""}`} aria-live="polite">{ready ? <><div className="match-brief-title"><Check size={19} /><div><strong>{text.summary}</strong><p>{selectedNames.join(" · ")}</p></div></div><p className="match-brief-copy">{text.summaryText}</p><div className="match-checklist"><span>{text.checklistTitle}</span>{text.checklist.map((item) => <p key={item}><Check size={13} />{item}</p>)}</div><a href="#cotizar" className="match-brief-cta">{text.cta} <ArrowDownRight size={17} /></a><button className="match-reset" onClick={() => setSelection({ surface: "", goal: "", finish: "" })}>{text.reset}</button></> : <p className="match-incomplete">{text.incomplete}</p>}</div>
+        <div className={`match-brief ${ready ? "is-ready" : ""}`} aria-live="polite">{ready ? <><div className="match-brief-title"><Check size={19} /><div><strong>{text.summary}</strong><p>{selectedNames.join(" · ")}</p></div></div><p className="match-brief-copy">{text.summaryText}</p><div className="match-checklist"><span>{text.checklistTitle}</span>{text.checklist.map((item) => <p key={item}><Check size={13} />{item}</p>)}</div><a href="#quote" className="match-brief-cta">{text.cta} <ArrowDownRight size={17} /></a><button className="match-reset" onClick={() => setSelection({ surface: "", goal: "", finish: "" })}>{text.reset}</button></> : <p className="match-incomplete">{text.incomplete}</p>}</div>
       </div>
     </div>
   </section>;
