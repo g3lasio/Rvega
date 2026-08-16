@@ -9,13 +9,17 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import ServicePage from "./pages/ServicePage";
+import AreaPage from "./pages/AreaPage";
 
 const ExteriorStucco = () => <ServicePage kind="exterior" />;
 const InteriorPlaster = () => <ServicePage kind="interior" />;
 const LathPreparation = () => <ServicePage kind="lath" />;
+const StocktonArea = () => <AreaPage area="stockton" />;
+const SacramentoArea = () => <AreaPage area="sacramento" />;
+const BayArea = () => <AreaPage area="bay-area" />;
 
 function Router() {
-  return <Switch><Route path="/exterior-stucco" component={ExteriorStucco} /><Route path="/interior-plaster" component={InteriorPlaster} /><Route path="/lath-preparation" component={LathPreparation} /><Route path="/" component={Home} /><Route path="/404" component={NotFound} /><Route component={NotFound} /></Switch>;
+  return <Switch><Route path="/exterior-stucco" component={ExteriorStucco} /><Route path="/interior-plaster" component={InteriorPlaster} /><Route path="/lath-preparation" component={LathPreparation} /><Route path="/areas/stockton" component={StocktonArea} /><Route path="/areas/sacramento" component={SacramentoArea} /><Route path="/areas/bay-area" component={BayArea} /><Route path="/" component={Home} /><Route path="/404" component={NotFound} /><Route component={NotFound} /></Switch>;
 }
 
 export default function App() {

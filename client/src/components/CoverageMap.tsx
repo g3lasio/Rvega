@@ -3,7 +3,7 @@
  * It uses custom markers, a coverage envelope, and an actionable city handoff to the quote form.
  */
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { Crosshair, LocateFixed, MapPin, Search } from "lucide-react";
+import { ArrowUpRight, Crosshair, LocateFixed, MapPin, Search } from "lucide-react";
 import { MapView } from "@/components/Map";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -37,9 +37,9 @@ export default function CoverageMap() {
   const queryMarker = useRef<google.maps.marker.AdvancedMarkerElement | null>(null);
 
   const text = language === "es" ? {
-    eyebrow: "COBERTURA DE PROYECTO", title: <>Un radio se ve mejor<br />cuando tiene <em>contexto.</em></>, intro: "Explora las ciudades donde el equipo ha realizado trabajo. La disponibilidad final se revisa con alcance, calendario y condiciones de obra.", legend: "TERRITORIO DE TRABAJO", envelope: "HASTA 200 MI · SEGÚN ALCANCE", input: "Ciudad o ZIP", action: "Revisar ubicación", reset: "Vista regional", result: "Ubicación enfocada. Comparte los detalles del proyecto para revisar cobertura.", notFound: "No pudimos ubicar esa entrada. Intenta con ciudad y estado o un ZIP.", send: "Usar esta ubicación en mi solicitud", cityList: "Ciudades y áreas documentadas"
+    eyebrow: "COBERTURA DE PROYECTO", title: <>Un radio se ve mejor<br />cuando tiene <em>contexto.</em></>, intro: "Explora las ciudades donde el equipo ha realizado trabajo. La disponibilidad final se revisa con alcance, calendario y condiciones de obra.", legend: "TERRITORIO DE TRABAJO", envelope: "HASTA 200 MI · SEGÚN ALCANCE", input: "Ciudad o ZIP", action: "Revisar ubicación", reset: "Vista regional", result: "Ubicación enfocada. Comparte los detalles del proyecto para revisar cobertura.", notFound: "No pudimos ubicar esa entrada. Intenta con ciudad y estado o un ZIP.", send: "Usar esta ubicación en mi solicitud", cityList: "Ciudades y áreas documentadas", chapters: "Notas regionales de campo", chapterLinks: [["Stockton + Central Valley", "/areas/stockton"], ["Sacramento Area", "/areas/sacramento"], ["Bay Area", "/areas/bay-area"]]
   } : {
-    eyebrow: "PROJECT COVERAGE", title: <>A service area reads better<br />with <em>context.</em></>, intro: "Explore the cities where the team has completed work. Final availability is reviewed with scope, timing, and site conditions.", legend: "WORK TERRITORY", envelope: "UP TO 200 MI · BY PROJECT SCOPE", input: "City or ZIP", action: "Check location", reset: "Regional view", result: "Location focused. Share the project details so coverage can be reviewed.", notFound: "We could not locate that entry. Try a city and state or a ZIP code.", send: "Use this location in my request", cityList: "Documented cities and areas"
+    eyebrow: "PROJECT COVERAGE", title: <>A service area reads better<br />with <em>context.</em></>, intro: "Explore the cities where the team has completed work. Final availability is reviewed with scope, timing, and site conditions.", legend: "WORK TERRITORY", envelope: "UP TO 200 MI · BY PROJECT SCOPE", input: "City or ZIP", action: "Check location", reset: "Regional view", result: "Location focused. Share the project details so coverage can be reviewed.", notFound: "We could not locate that entry. Try a city and state or a ZIP code.", send: "Use this location in my request", cityList: "Documented cities and areas", chapters: "Regional field notes", chapterLinks: [["Stockton + Central Valley", "/areas/stockton"], ["Sacramento Area", "/areas/sacramento"], ["Bay Area", "/areas/bay-area"]]
   };
 
   const focus = (city: City, zoom = 8) => {
@@ -139,7 +139,7 @@ export default function CoverageMap() {
         <button type="submit">{text.action}<LocateFixed size={15} /></button>
       </form>
       {status && <p className="coverage-status">{status}</p>}
-      <div className="coverage-city-list"><span>{text.cityList}</span><div>{cities.map((city) => <button key={city.name} className={activeCity === city.name ? "is-active" : ""} onClick={() => focus(city)} type="button">{city.name}</button>)}</div></div>
+      <div className="coverage-city-list"><span>{text.cityList}</span><div>{cities.map((city) => <button key={city.name} className={activeCity === city.name ? "is-active" : ""} onClick={() => focus(city)} type="button">{city.name}</button>)}</div></div><div className="coverage-area-links"><span>{text.chapters}</span><div>{text.chapterLinks.map(([label, href]) => <a key={href} href={href}>{label}<ArrowUpRight size={14} /></a>)}</div></div>
     </div>
     <div className="coverage-map-shell">
       <MapView className="coverage-map-base" initialCenter={coverageCenter} initialZoom={6} onMapReady={onMapReady} />

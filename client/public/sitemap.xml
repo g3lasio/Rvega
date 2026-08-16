@@ -4,4 +4,7 @@
   <url><loc>/exterior-stucco</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>/interior-plaster</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>/lath-preparation</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>/areas/stockton</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>/areas/sacramento</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>/areas/bay-area</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
