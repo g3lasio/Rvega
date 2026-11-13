@@ -25,8 +25,8 @@ export const cityNotes = [
 
 export type CitySlug = (typeof cityNotes)[number]["slug"];
 
-const PHONE_DISPLAY = "(916) 999-7931";
-const PHONE_LINK = "tel:+19169997931";
+const PHONE_DISPLAY = "(209) 640-5323";
+const PHONE_LINK = "tel:+12096405323";
 const photos = [
   "/assets/commercial-finished-stucco.jpeg",
   "/assets/commercial-entry-detail.jpeg",
