@@ -20,6 +20,7 @@ export default function LeadprimeWidget() {
     script.dataset.theme = "dark";
     script.dataset.greeting = "Tell us about the wall, finish, or project you want to review.";
     script.dataset.logo = "/assets/brand-icon.png";
+    script.dataset.avatar = "/assets/agent-avatar.svg";
     document.body.appendChild(script);
   }, []);
 
